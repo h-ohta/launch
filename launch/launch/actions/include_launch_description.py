@@ -36,7 +36,7 @@ from ..some_substitutions_type import SomeSubstitutionsType
 from ..utilities import normalize_to_list_of_substitutions
 from ..utilities import perform_substitutions
 
-
+import time
 @expose_action('include')
 class IncludeLaunchDescription(Action):
     """
@@ -144,8 +144,10 @@ class IncludeLaunchDescription(Action):
         return None
 
     def execute(self, context: LaunchContext) -> List[LaunchDescriptionEntity]:
+        start = time.perf_counter()
         """Execute the action."""
         launch_description = self.__launch_description_source.get_launch_description(context)
+        print("[IncludeLaunchDescription.execute]: {}".format(self.__launch_description_source.location))
         # If the location does not exist, then it's likely set to '<script>' or something.
         context.extend_locals({
             'current_launch_file_path': self._get_launch_file(),
@@ -180,6 +182,9 @@ class IncludeLaunchDescription(Action):
         set_launch_configuration_actions = []
         for name, value in self.launch_arguments:
             set_launch_configuration_actions.append(SetLaunchConfiguration(name, value))
+
+        end = time.perf_counter()
+        print("[IncludeLaunchDescription.execute]: {}, {}".format(self.__launch_description_source.location, (end - start)))
 
         # Set launch arguments as launch configurations and then include the launch description.
         return [*set_launch_configuration_actions, launch_description]
