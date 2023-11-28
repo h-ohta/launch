@@ -126,23 +126,23 @@ class LaunchDescription(LaunchDescriptionEntity):
         default value and description from the first instance of the argument
         declaration is used.
         """
-        from .actions import IncludeLaunchDescription  # noqa: F811
+        from .actions import IncludeLaunchDescription, GroupAction  # noqa: F811
         declared_launch_arguments: List[
             Tuple[DeclareLaunchArgument, List[IncludeLaunchDescription]]] = []
         from .actions import ResetLaunchConfigurations
 
         def process_entities(entities, *, _conditional_inclusion, nested_ild_actions=None):
             for entity in entities:
-                start = time.perf_counter()
                 if isinstance(entity, IncludeLaunchDescription):
                     try:
                         entity.launch_description_source.get_launch_description(LaunchContext())
                     except Exception as exc:
                         print("exception")
-                    print("[process_entities]: {}".format(entity))
-                    print("[process_entities]: {}".format(entity.launch_description_source.location))
-                else:
-                    print("[process_entities]: {}".format(entity))
+                    print("[process_entities.start]: {}".format(entity.launch_description_source.location))
+                    
+                elif isinstance(entity, GroupAction):
+                    print("[process_entities.start]: {}".format(entity))
+                start = time.perf_counter()
                 if isinstance(entity, DeclareLaunchArgument):
                     # Avoid duplicate entries with the same name.
                     if entity.name in (e.name for e, _ in declared_launch_arguments):
@@ -172,8 +172,9 @@ class LaunchDescription(LaunchDescriptionEntity):
                             nested_ild_actions=next_nested_ild_actions)
                 end = time.perf_counter()
                 if isinstance(entity, IncludeLaunchDescription):
-                    print("[process_entities]: {}, {}".format(entity.launch_description_source.location, (end - start)))
-
+                    print("[process_entities.end]: {}, {}".format(entity.launch_description_source.location, (end - start)))
+                elif isinstance(entity, GroupAction):
+                    print("[process_entities.end]: {}, {}".format(entity, end - start))
         process_entities(self.entities, _conditional_inclusion=conditional_inclusion)
 
         return declared_launch_arguments
