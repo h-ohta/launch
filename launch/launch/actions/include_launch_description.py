@@ -147,7 +147,6 @@ class IncludeLaunchDescription(Action):
         start = time.perf_counter()
         """Execute the action."""
         launch_description = self.__launch_description_source.get_launch_description(context)
-        print("[IncludeLaunchDescription.execute]: {}".format(self.__launch_description_source.location))
         # If the location does not exist, then it's likely set to '<script>' or something.
         context.extend_locals({
             'current_launch_file_path': self._get_launch_file(),
