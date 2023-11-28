@@ -69,6 +69,7 @@ class SetLaunchConfiguration(Action):
         return self.__value
 
     def execute(self, context: LaunchContext):
+        print("[SetLaunchConfiguration.execute]")
         """Execute the action."""
         context.launch_configurations[perform_substitutions(context, self.name)] = \
             perform_substitutions(context, self.value)

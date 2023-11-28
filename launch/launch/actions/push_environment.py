@@ -31,5 +31,6 @@ class PushEnvironment(Action):
         super().__init__(**kwargs)
 
     def execute(self, context: LaunchContext):
+        print("[PushEnvironment.execute]")
         """Execute the action."""
         context._push_environment()

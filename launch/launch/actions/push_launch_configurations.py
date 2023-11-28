@@ -31,5 +31,6 @@ class PushLaunchConfigurations(Action):
         super().__init__(**kwargs)
 
     def execute(self, context: LaunchContext):
+        print("[PushLaunchConfigurations.execute]")
         """Execute the action."""
         context._push_launch_configurations()

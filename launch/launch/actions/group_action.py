@@ -142,5 +142,6 @@ class GroupAction(Action):
         return self.__actions_to_return
 
     def execute(self, context: LaunchContext) -> Optional[List[LaunchDescriptionEntity]]:
+        print("[GroupAction.execute]")
         """Execute the action."""
         return self.get_sub_entities()

@@ -71,5 +71,6 @@ class OpaqueFunction(Action):
             self.__kwargs = kwargs
 
     def execute(self, context: LaunchContext) -> Optional[List[LaunchDescriptionEntity]]:
+        print("[OpaqueFunction.execute]")
         """Execute the action."""
         return self.__function(context, *self.__args, **self.__kwargs)
