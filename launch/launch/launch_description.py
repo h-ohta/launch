@@ -95,6 +95,7 @@ class LaunchDescription(LaunchDescriptionEntity):
     def get_launch_arguments_with_include_launch_description_actions(
         self, conditional_inclusion=False
     ) -> List[Tuple[DeclareLaunchArgument, List['IncludeLaunchDescription']]]:
+        print("[LaunchDescription.get_launch_arguments_with_include_launch_description_actions]")
         """
         Return a list of launch arguments with its associated include launch descriptions actions.
 
