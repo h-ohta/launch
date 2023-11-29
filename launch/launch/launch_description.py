@@ -167,7 +167,9 @@ class LaunchDescription(LaunchDescriptionEntity):
                         entity.launch_description_source.get_launch_description(LaunchContext())
                     except Exception as exc:
                         print("exception")
-                    print("[process_entities.end]: {}, {}".format(entity.launch_description_source.location, (end - start)))
+                    if next_nested_ild_actions is None:
+                        next_nested_ild_actions = []
+                    print("[process_entities.end]: {}, {}, {}".format(entity.launch_description_source.location, (end - start), len(next_nested_ild_actions)))
         process_entities(self.entities, _conditional_inclusion=conditional_inclusion)
 
         return declared_launch_arguments
